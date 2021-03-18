@@ -13,7 +13,10 @@ const logger = (req, res, next) => {
     next() 
 }
 
-app.use(logger)
+//Dev logging middleware
+if(process.env.NODE_ENV === 'development') {
+    app.use(morgan('dev'))
+}
 
 //Mount routers
 app.use('/app/v1/bootcamps', bootcamps);
