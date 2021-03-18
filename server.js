@@ -14,6 +14,9 @@ const bootcamps = require('./routes/bootcamps');
 
 const app = express();
 
+//Body Parser
+app.use(express.json())
+
 const logger = (req, res, next) => {
     console.log(`${req.method} ${req.protocol}://${req.get('host')}${req.originalUrl}`)
     next() 
