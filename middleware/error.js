@@ -3,13 +3,20 @@ const ErrorResponse = require("../utils/errorResponse")
 const errorHandler = (err, req, res, next) => {
     let error = { ...err }
     error.message = err.message
-    console.log(err.stack)
+    //console.log(err.stack)
     //console.log(err.name)
+    console.log(err)
 
     //Mongoose bad objectid
     if(err.name === 'CastError') {
         const message = `Resource not found with id of ${err.value}`
         error = new ErrorResponse(message, 404)
+    }
+
+    // Mongoose duplicate key error, this error fires off if we create bootcamp that already exists
+    if(err.code === 11000) {
+        const message = 'Duplicate value field entered'
+        error = new ErrorResponse(message, 400)
     }
 
     res.status(error.statusCode || 500).json({
