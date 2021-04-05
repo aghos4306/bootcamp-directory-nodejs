@@ -7,14 +7,19 @@ const Bootcamp = require('../models/Bootcamp')
 // @route       GET /api/v1/bootcamps
 // @access      Public
 exports.getBootcamps = asyncHandler(async (req, res, next) => {
+       
+        let query;
+        let queryStr = JSON.stringify(req.query);
+        queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`);
+        query = Bootcamp.find(JSON.parse(queryStr))
 
-        const bootcamps = await Bootcamp.find()
+        const bootcamps = await query
 
         if(!bootcamps) {
             //res.status(200).json({ success: true, count: bootcamps.length, data: bootcamps })
             return next(new ErrorResponse(`Bootcamp not found with id of ${req.params.id}`, 404))
         } 
-        res.status(200).json({ success: true, data: bootcamps })  
+        res.status(200).json({ success: true, count:bootcamps.length, data: bootcamps })  
     
 })
 
