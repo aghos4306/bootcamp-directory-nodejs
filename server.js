@@ -12,6 +12,7 @@ connectDB()
 
 //Routes files
 const bootcamps = require('./routes/bootcamps');
+const courses = require('./routes/courses')
 
 const app = express();
 
@@ -30,6 +31,7 @@ if(process.env.NODE_ENV === 'development') {
 
 //Mount routers
 app.use('/app/v1/bootcamps', bootcamps);
+app.use('/app/v1/courses', courses);
 
 //error middleware placed after bootcamp for it to be seen
 app.use(errorHandler)
